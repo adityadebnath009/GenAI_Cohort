@@ -69,7 +69,9 @@ while True:
     )
     
     messages.append({"role": "assistant", "content": response.choices[0].message.content})
+    print(response.choices[0].message.content)
     parsed_response = json.loads(response.choices[0].message.content)
+    
     
     if parsed_response["step"] != "result":
         print("\n\n🤖: ", parsed_response["content"], "\n\n")
