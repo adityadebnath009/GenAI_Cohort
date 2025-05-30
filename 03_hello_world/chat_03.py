@@ -5,8 +5,14 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
+client = OpenAI(
+    api_key=api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+
 # Initialize OpenAI client
-client = OpenAI()
+# client = OpenAI()
 
 #What is Chain-of-thought prompting?
 # Chain-of-thought prompting is a technique where you provide a sequence of reasoning steps or thought processes to guide the model's response.
@@ -57,12 +63,19 @@ messages = [
     
 ]
 
-query = input("> ")
-messages .append({"role":"user","content": query})
+# query = input("> ")
+# messages .append({"role":"user","content": query})
 
 while True:
+    query = input("\n> ")
+    if query.lower() in ["exit", "quit"]:
+        print("Goodbye! 👋")
+        break
+
+    messages.append({"role": "user", "content": query})
+    
     response = client.chat.completions.create(
-        model = "gpt-4.1-mini",
+        model = "gemini-2.0-flash",
         response_format={
             "type": "json_object"},
         messages = messages
